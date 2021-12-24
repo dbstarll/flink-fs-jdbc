@@ -30,7 +30,10 @@ class JdbcFileSystemTest {
         dataSourceProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("jdbc.properties"));
         this.ds = DruidDataSourceFactory.createDataSource(dataSourceProperties);
         this.fs = new JdbcFileSystem(ds, 1024, URI.create("jdbc://test/default"));
-        this.ds.getConnection().close();
+        final String sql = IOUtils.toString(ClassLoader.getSystemClassLoader().getResourceAsStream("init.sql"), StandardCharsets.UTF_8);
+        try (Connection conn = this.ds.getConnection()) {
+            conn.createStatement().execute(sql);
+        }
     }
 
     @AfterEach
@@ -38,7 +41,7 @@ class JdbcFileSystemTest {
         this.fs = null;
         if (this.ds instanceof Closeable) {
             try (Connection conn = ds.getConnection()) {
-                conn.createStatement().executeUpdate("truncate table test");
+                conn.createStatement().executeUpdate("drop table test");
             }
             ((Closeable) this.ds).close();
         }
