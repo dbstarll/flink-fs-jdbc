@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.dbstarll.parent</groupId>
+    <artifactId>base</artifactId>
+    <version>1.2.0</version>
+  </parent>
+
+  <groupId>io.github.dbstarll.telecom.hb</groupId>
+  <artifactId>flink-cp</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <version.flink>1.14.2</version.flink>
+    <version.scala>2.11</version.scala>
+    <version.druid>1.2.8</version.druid>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-runtime</artifactId>
+      <version>${version.flink}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>${version.druid}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.9</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.27</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
