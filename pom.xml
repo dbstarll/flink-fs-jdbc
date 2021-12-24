@@ -9,9 +9,9 @@
     <version>1.2.0</version>
   </parent>
 
-  <groupId>io.github.dbstarll.telecom.hb</groupId>
-  <artifactId>flink-cp</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>io.github.dbstarll.flink</groupId>
+  <artifactId>flink-fs-jdbc</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
 
   <properties>
     <version.flink>1.14.2</version.flink>
