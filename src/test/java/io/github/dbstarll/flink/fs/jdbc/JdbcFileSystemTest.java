@@ -20,7 +20,10 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcFileSystemTest {
+/**
+ * 测试JdbcFileSystem.
+ */
+public final class JdbcFileSystemTest {
     private volatile DataSource ds;
     private volatile FileSystem fs;
 

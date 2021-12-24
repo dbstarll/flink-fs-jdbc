@@ -9,6 +9,7 @@ public interface SizeConsumer<T> {
      *
      * @param t    the input argument1
      * @param size size
+     * @throws IOException io异常
      */
     void accept(T t, long size) throws IOException;
 }
