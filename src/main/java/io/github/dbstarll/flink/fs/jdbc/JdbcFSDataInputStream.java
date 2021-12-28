@@ -1,7 +1,7 @@
 package io.github.dbstarll.flink.fs.jdbc;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.flink.core.fs.FSDataInputStream;
+import org.apache.flink.util.IOUtils;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
@@ -20,7 +20,7 @@ public final class JdbcFSDataInputStream extends FSDataInputStream {
 
     private static ByteArrayInputStream copy(final int bufferSize, final InputStream is) throws IOException {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream(bufferSize)) {
-            IOUtils.copy(is, os, bufferSize);
+            IOUtils.copyBytes(is, os, bufferSize, true);
             return new ByteArrayInputStream(os.toByteArray());
         }
     }
@@ -55,5 +55,10 @@ public final class JdbcFSDataInputStream extends FSDataInputStream {
     @Override
     public int available() {
         return is.available();
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.is.close();
     }
 }

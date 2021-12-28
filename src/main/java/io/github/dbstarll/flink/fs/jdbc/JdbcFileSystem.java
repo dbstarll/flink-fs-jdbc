@@ -2,7 +2,6 @@ package io.github.dbstarll.flink.fs.jdbc;
 
 import io.github.dbstarll.flink.fs.jdbc.function.Function;
 import io.github.dbstarll.flink.fs.jdbc.function.SizeConsumer;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.core.fs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
@@ -242,7 +242,7 @@ public final class JdbcFileSystem extends FileSystem {
         if (status == null) {
             final Path parent = f.getParent();
             final JdbcFileStatus parentStatus = parent != null ? mkdirs(conn, parent) : root;
-            if (StringUtils.isBlank(f.getName())) {
+            if (f.getName().length() == 0) {
                 return parentStatus;
             } else {
                 LOGGER.info("mkdir: " + f);
@@ -272,7 +272,7 @@ public final class JdbcFileSystem extends FileSystem {
     private FSDataOutputStream create(final Connection conn, final Path f, final WriteMode mode) throws IOException {
         final JdbcFileStatus status = getFileStatus(conn, f);
         if (status == null) {
-            if (StringUtils.isBlank(f.getName())) {
+            if (f.getName().length() == 0) {
                 throw new IOException("file name not set.");
             }
             final Path parent = f.getParent();
@@ -320,7 +320,7 @@ public final class JdbcFileSystem extends FileSystem {
             } else {
                 // move dir to dir
                 final JdbcFileStatus dstDir = dstStatus == null ? mkdirs(conn, dst.getParent()) : dstStatus;
-                final String dstName = (dstStatus != null || StringUtils.isBlank(dst.getName()) ? src : dst).getName();
+                final String dstName = (dstStatus != null || dst.getName().length() == 0 ? src : dst).getName();
                 if (dstDir.getId() == srcStatus.getParent() && dstName.equals(src.getName())) {
                     return 0; // not change
                 } else {
@@ -332,7 +332,7 @@ public final class JdbcFileSystem extends FileSystem {
         } else {
             // move file to dir
             final JdbcFileStatus dstDir = dstStatus == null ? mkdirs(conn, dst.getParent()) : dstStatus;
-            final String dstName = (dstStatus != null || StringUtils.isBlank(dst.getName()) ? src : dst).getName();
+            final String dstName = (dstStatus != null || dst.getName().length() == 0 ? src : dst).getName();
             if (dstDir.getId() == srcStatus.getParent() && dstName.equals(src.getName())) {
                 return 0; // not change
             } else {
@@ -383,7 +383,7 @@ public final class JdbcFileSystem extends FileSystem {
             throw new IOException(e);
         } finally {
             LOGGER.debug("connection[" + transaction + "] cost: " + (System.currentTimeMillis() - start)
-                    + " " + StringUtils.join(title, ' '));
+                    + " " + Arrays.toString(title));
         }
     }
 
